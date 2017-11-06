@@ -1,37 +1,23 @@
 <template id="pony-tpl">
     <style>
-        h1 {color: orange;}
+        h1 { color: orange; }
     </style>
     <h1>Curso de Angular 5</h1>
 </template>
 
 <script>
-
     let PonyComponentProto = Object.create(HTMLElement.prototype);
-
-    // add some template in the Shadow DOM
-    PonyComponentProto.createdCallBack = function() {
-        let oimport = document.querySelector('<link rel="import"').import;
-        var template = document.querySelector('#pony-tpl');
-        var clone = document.importNode(template.content, true);
-        var shadow = this.createShadowRoot();
-        this.createShadowRoot().appendChild(clone);
-        //shadow.innerHTML = '<h1>Curso de Angular 5</h1>';
-    }
-
+		// add some template using a lifecycle and the template tag
+		PonyComponentProto.createdCallback = function() {
+			let oImport = document.querySelector('link[rel="import"]').import;
+			//console.log(x.querySelector("template"))
+			const template = oImport.querySelector("template");
+			let clone = document.importNode(template.content, true);
+			let shadow = this.createShadowRoot();
+			this.createShadowRoot().appendChild(clone);
+    };
     // new element
-    var PonyComponent = document.registerElement('ns-pony');
-
+    var PonyComponent = document.registerElement('ns-pony', {prototype: PonyComponentProto});
     // insert in current body
     document.body.appendChild(new PonyComponent());
-
-    // add some template in the Shadow DOM
-    // PonyComponent.createdCallBack = function() {
-    //     var template = document.querySelector('#pony-tpl');
-    //     var clone = document.importNode(template.content, true);
-    //     var shadow = this.createShadowRoot();
-    //     this.createShadowRoot().appendChild(clone);
-    //     //shadow.innerHTML = '<h1>Curso de Angular 5</h1>';
-    // }
-
 </script>
