@@ -23,4 +23,5 @@ class LibroTecnico extends Libro {
 }
 
 let oLibro  = new LibroTecnico("Pepe", "Angular", "Programacion");
+oLibro.editorial = "Anaya";
 oLibro.mostrar();

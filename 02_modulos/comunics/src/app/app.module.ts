@@ -1,5 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
+import { MainModule } from './main/main.module';
+import { SharedModule } from './shared/shared.module';
 
 import { AppComponent } from './app.component';
 
@@ -8,11 +11,12 @@ import { AppComponent } from './app.component';
     AppComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    SharedModule,
+    MainModule,
+    FormsModule
   ],
   providers: [],
-  // exports : []
-  // Al ser el módulo principal, en lugar de exports se utiliza bootstrap
   bootstrap: [AppComponent]
 })
 export class AppModule { }
