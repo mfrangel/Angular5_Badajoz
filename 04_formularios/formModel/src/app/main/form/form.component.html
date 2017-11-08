@@ -1,0 +1,86 @@
+<article>
+  <form novalidate [formGroup]="formulario" (ngSubmit)="enviar()">
+      <!--Text-->    
+      <h2>Usuario</h2>
+      <div class="form-group">
+        <input type="text"
+          placeholder="Indica tu nombre" formControlName="name">
+          <p class="error-message" [hidden]="!formulario.controls.name.errors?.required">
+              Nombre obligatorio
+          </p>
+          <p class="error-message" [hidden]="!formulario.controls.name.errors?.minlength">
+              Debe ser de longitud mayor a 4
+          </p>          
+      </div>
+      <div class="form-group">
+          <input type="text"  
+          placeholder="Indica tu apellido" formControlName="apellidos">
+          <p class="error-message" [hidden]="!formulario.controls.apellidos.errors?.required">
+            Apellido obligatorio
+          </p>
+      </div>
+      <div class="form-group">
+          <input type="text" 
+          placeholder="Indica tu telefono" formControlName="telefono">    
+          <p class="error-message" [hidden]="!formulario.controls.telefono.errors?.required">
+              Telefono obligatorio
+          </p>
+          <p class="error-message" [hidden]="!formulario.controls.telefono.errors?.pattern">
+              Patrón numérico
+          </p>                     
+      </div>
+
+      <!--Radio-Buttos-->
+      <h2>Selecciona una Impresora</h2>
+      <div *ngFor="let impresora of aPrinters">
+          <input type="radio" formControlName="impresora" [value]="impresora">
+          <label>{{impresora.modelo}} - {{impresora.tipo}}</label>
+      </div>
+
+      <!--Checkbox-->    
+      <h2>Seleción de opciones</h2>
+      <p>
+          <input id="print" type="checkbox" formControlName="color"
+              (change)="avisarPrint()">
+          <label for="print">Imprimir resultado</label><br>
+          
+          <input id="tono" type="checkbox" formControlName="claro"> 
+          <label for="tono">Tono claro</label>			
+      </p>
+      
+      <!--Select/options --> 
+      <p>
+          <label for="select">Departamento </label>
+          <select id="select" formControlName="departamento" (ngModelChange)="avisarDepartamento()"> 
+              <option *ngFor="let departamento of aDepartamentos"
+                  [ngValue]="departamento">
+                  {{departamento.nombre}}
+              </option>
+          </select>
+      </p>	
+      <p>
+        <button type="submit" [disabled]="!formulario.valid">Enviar</button>
+        <button (click)="borrar()" [disabled]="formulario.pristine">Borrar</button>  
+      </p>
+      
+  </form>
+
+  <div *ngIf="mostrarFinal">
+      <h2>Resultado</h2>
+      <ul>
+          <li>Usuario: {{formulario.controls.name.value}}</li>
+          <li>Impresora seleccionada: {{formulario.controls.impresora.value | json}}</li>
+          <li>Opción print seleccionada: {{formulario.controls.color.value}}</li>
+          <li>Opción claro seleccionada: {{formulario.controls.claro.value}}</li>
+          <li>Departamento elegida: {{formulario.controls.departamento.value | json}}</li>
+      </ul> 
+  </div>	
+
+  <legend>Validación:</legend>
+  <ul>
+    <li>Validez: {{formulario.valid}}</li>
+    <li>Untouched: {{formulario.untouched}}</li>
+    <li>Pristine: {{formulario.pristine}}</li>
+  </ul>
+
+</article>

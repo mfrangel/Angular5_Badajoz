@@ -1,0 +1,92 @@
+<article>
+  <form novalidate #formulario="ngForm" (ngSubmit)="enviar()">
+      <!--Text-->    
+      <h2>Usuario</h2>
+      <div class="form-group">
+        <input type="text" name="nombre" required minlength="4"
+          placeholder="Indica tu nombre" [(ngModel)]="user.nombre"
+          #nombreState = "ngModel">
+          <p class="error-message" [hidden]="!nombreState.errors?.required">
+              Nombre obligatorio
+          </p>
+          <p class="error-message" [hidden]="!nombreState.errors?.minlength">
+              Debe ser de longitud mayor a 4
+          </p>          
+      </div>
+      <div class="form-group">
+          <input type="text" name="apellido" required #apellidoState = "ngModel"
+          placeholder="Indica tu apellido" [(ngModel)]="user.apellido">
+          <p class="error-message" [hidden]="!apellidoState.errors?.required">
+            Apellido obligatorio
+          </p>
+      </div>
+      <div class="form-group">
+          <input type="text" name="telefono" required pattern="/^\d{9}$/"
+          placeholder="Indica tu telefono" [(ngModel)]="user.telefono"
+          #telefonoState="ngModel">    
+          <p class="error-message" [hidden]="!telefonoState.errors?.required">
+              Telefono obligatorio
+          </p>
+          <p class="error-message" [hidden]="!telefonoState.errors?.pattern">
+              Patrón numérico
+          </p>                     
+      </div>
+
+      <!--Radio-Buttos-->
+      <h2>Selecciona una Impresora</h2>
+      <div *ngFor="let impresora of aPrinters">
+          <input type="radio" 
+              name ="printer" [(ngModel)]="impresoraSeleccionada" [value]="impresora">
+          <label>{{impresora.modelo}} - {{impresora.tipo}}</label>
+      </div>
+
+      <!--Checkbox-->    
+      <h2>Seleción de opciones</h2>
+      <p>
+          <input id="print" name="print" type="checkbox" [(ngModel)]="print" 
+              [disabled]="!impresoraSeleccionada"
+              (change)="avisarPrint()">
+          <label for="print">Imprimir resultado</label><br>
+          
+          <input id="tono" name="tono" type="checkbox" [(ngModel)]="isClaro"
+              [disabled]="!impresoraSeleccionada" > 
+          <label for="tono">Tono claro</label>			
+      </p>
+      
+      <!--Select/options --> 
+      <p>
+          <label for="select">Departamento </label>
+          <select id="select" name="select"
+          [(ngModel)]="departamentoSeleccionado" (ngModelChange)="avisarDepartamento()"> 
+              <option *ngFor="let departamento of aDepartamentos"
+                  [ngValue]="departamento">
+                  {{departamento.nombre}}
+              </option>
+          </select>
+      </p>	
+      <p>
+        <button type="submit" [disabled]="!formulario.valid">Enviar</button>
+        <button (click)="borrar()">Borrar</button>  
+      </p>
+      
+  </form>
+
+  <div *ngIf="mostrarFinal">
+      <h2>Resultado</h2>
+      <ul>
+          <li>Usuario: {{user | json}}</li>
+          <li>Impresora seleccionada: {{impresoraSeleccionada | json}}</li>
+          <li>Opción print seleccionada: {{print}}</li>
+          <li>Opción claro seleccionada: {{isClaro}}</li>
+          <li>Provincia elegida: {{departamentoSeleccionado.nombre}}</li>
+      </ul> 
+  </div>	
+
+  <legend>Validación:</legend>
+  <ul>
+    <li>Validez: {{formulario.valid}}</li>
+    <li>Untouched: {{formulario.untouched}}</li>
+    <li>Pristine: {{formulario.pristine}}</li>
+  </ul>
+
+</article>
