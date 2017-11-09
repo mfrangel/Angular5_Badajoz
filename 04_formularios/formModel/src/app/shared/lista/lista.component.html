@@ -1,0 +1,18 @@
+<div>
+  <h2>Búsqueda simulada</h2>
+  <p>
+    <input type="text" 
+    placeholder="Escribe la palabra a buscar" 
+    [(ngModel)]="sClave">
+  </p>
+  <p>
+    <button (click)="buscar()">Buscar</button>
+  </p>
+  <div *ngIf="aLibros.length">
+    <h2>Lista de ideas</h2>
+    <ul>
+      <li *ngFor="let libro of aLibros">{{libro}}</li>
+    </ul>
+  </div>
+
+</div>
